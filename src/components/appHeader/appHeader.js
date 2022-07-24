@@ -1,5 +1,4 @@
 import React from "react";
-import placeholder from "../../resources/placeholder.svg";
 import "./appHeader.scss";
 import logo from "../../resources/logo.png";
 import { Link, NavLink } from "react-router-dom";
@@ -24,7 +23,6 @@ const AppHeader = () => {
           </li>
           <li className="site-navigation-item">
             <NavLink
-              end
               style={({ isActive }) => ({
                 color: isActive ? "#45c8ff" : "inherit",
               })}
