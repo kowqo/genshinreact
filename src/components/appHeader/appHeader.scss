@@ -1,0 +1,27 @@
+@import "../../styles/varables.scss";
+.appHeader {
+  &-nav {
+    display: flex;
+    justify-content: space-between;
+    .site-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      font-size: 20px;
+      &-item {
+        margin: 0 8px;
+
+        a:hover {
+          color: $main-color;
+        }
+      }
+    }
+    > .logo {
+      cursor: pointer;
+    }
+  }
+  /* .active {
+    color: $main-color;
+  } */
+}

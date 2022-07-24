@@ -1,0 +1,27 @@
+.artifacts {
+  &-list {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    -ms-grid-columns: 200px 200px 200px 200px;
+    gap: 25px;
+  }
+  &-item {
+    display: flex;
+    width: 200px;
+    padding: 20px;
+    height: 250px;
+    cursor: pointer;
+
+    transition: 0.5s transform;
+    img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      transform: translate(-20px, -20px);
+    }
+    &:hover {
+      transform: translateY(-10px);
+    }
+  }
+}
