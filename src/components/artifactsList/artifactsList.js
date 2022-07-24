@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchArtifacts } from "./artifactsSlice";
-
+import { v4 as uuidv4 } from "uuid";
 import Spinner from "../spinner/spinner";
 import "./artifactsList.scss";
 import ArtifactsItem from "../artifactsItem/artifactsItem";
@@ -12,7 +12,7 @@ const ArtifactsList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchArtifacts());
-  }, []);
+  }, [dispatch]);
   const renderCharacters = (arr) => {
     if (arr.length === 0) {
       return <Spinner />;
@@ -23,7 +23,7 @@ const ArtifactsList = () => {
     return arr.map((char, index) => {
       return (
         <ArtifactsItem
-          key={char.name}
+          key={uuidv4()}
           thumbnail={char.thumbnail}
           name={char.name}
         />

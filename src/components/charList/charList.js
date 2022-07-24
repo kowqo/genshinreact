@@ -4,7 +4,7 @@ import { fetchCharacters } from "./charSlice";
 import CharItem from "../charItem/charItem";
 import Spinner from "../spinner/spinner";
 import "./charList.scss";
-
+import { v4 as uuidv4 } from "uuid";
 const CharList = () => {
   const { characters, charactersLoadingStatus } = useSelector(
     (state) => state.characters
@@ -13,7 +13,7 @@ const CharList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCharacters());
-  }, []);
+  }, [dispatch]);
 
   const renderCharacters = (arr) => {
     if (arr.length === 0) {
@@ -25,7 +25,7 @@ const CharList = () => {
 
     return arr.map((char, i) => {
       return (
-        <CharItem key={char.name} thumbnail={char.thumbnail} name={char.name} />
+        <CharItem key={uuidv4()} thumbnail={char.thumbnail} name={char.name} />
       );
     });
   };
