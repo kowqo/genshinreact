@@ -10,17 +10,21 @@ const ArtifactsList = () => {
     (state) => state.artifacts
   );
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchArtifacts());
   }, [dispatch]);
+
   const renderCharacters = (arr) => {
     if (arr.length === 0) {
       return <Spinner />;
     }
+
     if (artifactsLoadingStatus === "error") {
       return <h2>Ошибка при загрузке</h2>;
     }
-    return arr.map((char, index) => {
+
+    return arr.map((char) => {
       return (
         <ArtifactsItem
           key={uuidv4()}
@@ -30,7 +34,9 @@ const ArtifactsList = () => {
       );
     });
   };
+
   const elements = renderCharacters(artifacts);
+
   return (
     <>
       <h1>Артефакты</h1>

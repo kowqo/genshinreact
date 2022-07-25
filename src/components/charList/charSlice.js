@@ -10,7 +10,7 @@ const genshinService = new GenshinService();
 export const fetchCharacters = createAsyncThunk(
   "characters/fetchCharacters",
   () => {
-    return genshinService.getAllCharacters();
+    return genshinService.getAllChars();
   }
 );
 

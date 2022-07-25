@@ -2,7 +2,7 @@ class GenshinService {
   _apiUrlchars = "https://api.genshin.dev/characters/";
   _apiChar = "https://api.genshin.dev/characters/diluc";
   charImage = "icon-big";
-  _apiArt = "https://api.genshin.dev/artifacts";
+  _apiArt = "https://api.genshin.dev/artifacts/";
   artImage = "circlet-of-logos";
   getResource = async (url) => {
     let res = await fetch(url);
@@ -13,66 +13,31 @@ class GenshinService {
     return await res.json();
   };
 
-  getChars = async () => {
-    const res = await this.getResource(`${this._apiUrlchars}`);
+  getNames = async (url) => {
+    const res = await this.getResource(`${url}`);
     return res;
   };
-  getCharacter = async (url) => {
-    const res = await this.getResource(url);
-    res.thumbnail = `${url}/${this.charImage}`;
-    return res;
-  };
-  getArts = async () => {
-    const res = await this.getResource(`${this._apiArt}`);
-    return res;
-  };
-  getArtifact = async (url) => {
-    const res = await this.getResource(url);
-    res.thumbnail = `${url}/${this.artImage}`;
-    return res;
-  };
-  getAllArtifacts = async (url) => {
-    let artArr = await this.getArts();
 
-    const promises = artArr.map((name) => `${this._apiArt}/${name}`);
-    const b = [];
-    for (let i = 0; i < promises.length; i++) {
-      b.push(this.getArtifact(promises[i]));
+  getDetailedDataWithImage = async (url, thumbnail) => {
+    const res = await this.getResource(url);
+    res.thumbnail = `${url}/${thumbnail}`;
+    return res;
+  };
+
+  getAllData = async (url, thumbnail) => {
+    const dataArr = await this.getNames(url);
+    const urlsArr = dataArr.map((name) => `${url}${name}`);
+    const dataArrWithImage = [];
+    for (let i = 0; i < urlsArr.length; i++) {
+      dataArrWithImage.push(this.getDetailedDataWithImage(urlsArr[i], thumbnail));
     }
-    const result = await Promise.all(b);
-
+    const result = await Promise.all(dataArrWithImage);
     return result;
   };
-  getAllCharacters = async () => {
-    let charArr = await this.getChars();
+  getAllChars = () => this.getAllData(this._apiUrlchars, this.charImage);
 
-    const promises = charArr.map((name) => `${this._apiUrlchars}${name}`);
-    /* for (const item of promises) {
-      let i = promises.indexOf(item);  рабочий вариант
-      //if (item.name.startsWith("Traveler")) {continue;}
-      await this.getCharacter(item).then((res) => (a[i] = res));
-    } */
-    /*  promises.forEach((item, i) =>
-      this.getCharacter(item).then((res) => (a[i] = res))
-    ); */ //// так нельзя
-    const b = [];
-    for (let i = 0; i < promises.length; i++) {
-      b.push(this.getCharacter(promises[i]));
-    }
-    const result = await Promise.all(b);
+  getAllArts = () => this.getAllData(this._apiArt, this.artImage);
 
-    return result;
-  };
-  _transformCharacter = (char) => {
-    return {
-      name: char.name,
-      affiliation: char.affiliation,
-      description: char.description,
-      thumbnail: char.thumbnail,
-      rarity: char.rarity,
-      vision: char.vision,
-      weapon: char.weapon,
-    };
-  };
+  
 }
 export default GenshinService;

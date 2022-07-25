@@ -34,6 +34,7 @@ const CharList = () => {
     <>
       <h1>Список персонажей</h1>
       <select className="element">
+        <option value="all">all</option>
         <option value="anemo">anemo</option>
         <option value="fire">fire</option>
         <option value="water">water</option>

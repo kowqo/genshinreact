@@ -32,7 +32,14 @@ const AppHeader = () => {
             </NavLink>
           </li>
           <li className="site-navigation-item">
-            <a href="./promocodes.html">Промокоды</a>
+            <NavLink
+              style={({ isActive }) => ({
+                color: isActive ? "#45c8ff" : "inherit",
+              })}
+              to="/promocodes"
+            >
+              Промокоды
+            </NavLink>
           </li>
         </ul>
       </nav>
