@@ -9,7 +9,7 @@
   &-item {
     display: flex;
     width: 200px;
-    padding: 20px;
+
     height: 250px;
     cursor: pointer;
     box-shadow: 2px 2px 2px rgb(27%, 78%, 100%, 0.25);
@@ -18,17 +18,15 @@
       width: 200px;
       height: 200px;
       object-fit: cover;
-      transform: translate(-20px, -20px);
     }
     &:hover {
       transform: translateY(-10px);
     }
   }
 }
-select {
-  margin-bottom: 30px;
-}
-
 figcaption {
-  margin-left: -50px;
+  margin-top: 15px;
+}
+select {
+  margin: 30px;
 }

@@ -34,8 +34,6 @@ const artifactsSlice = createSlice({
   },
 });
 
-const { actions, reducer } = artifactsSlice;
+const { reducer } = artifactsSlice;
 
 export default reducer;
-export const { artifactsFetching, artifactsFetchingError, artifactsLoaded } =
-  actions;

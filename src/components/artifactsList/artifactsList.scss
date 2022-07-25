@@ -9,7 +9,7 @@
   &-item {
     display: flex;
     width: 200px;
-    padding: 20px;
+
     height: 250px;
     cursor: pointer;
 
@@ -18,7 +18,6 @@
       width: 200px;
       height: 200px;
       object-fit: cover;
-      transform: translate(-20px, -20px);
     }
     &:hover {
       transform: translateY(-10px);

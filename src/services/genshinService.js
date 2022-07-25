@@ -1,3 +1,5 @@
+
+
 class GenshinService {
   _apiUrlchars = "https://api.genshin.dev/characters/";
   _apiChar = "https://api.genshin.dev/characters/diluc";
@@ -29,7 +31,9 @@ class GenshinService {
     const urlsArr = dataArr.map((name) => `${url}${name}`);
     const dataArrWithImage = [];
     for (let i = 0; i < urlsArr.length; i++) {
-      dataArrWithImage.push(this.getDetailedDataWithImage(urlsArr[i], thumbnail));
+      dataArrWithImage.push(
+        this.getDetailedDataWithImage(urlsArr[i], thumbnail)
+      );
     }
     const result = await Promise.all(dataArrWithImage);
     return result;
@@ -37,7 +41,5 @@ class GenshinService {
   getAllChars = () => this.getAllData(this._apiUrlchars, this.charImage);
 
   getAllArts = () => this.getAllData(this._apiArt, this.artImage);
-
-  
 }
 export default GenshinService;

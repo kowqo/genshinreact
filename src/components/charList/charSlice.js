@@ -4,6 +4,7 @@ import GenshinService from "../../services/genshinService";
 const initialState = {
   characters: [],
   charactersLoadingStatus: "idle",
+  activeFilter: "all",
 };
 const genshinService = new GenshinService();
 
@@ -36,5 +37,4 @@ const charactersSlice = createSlice({
 const { actions, reducer } = charactersSlice;
 
 export default reducer;
-export const { charactersFetching, charactersFetchingError, charactersLoaded } =
-  actions;
+export const { activeFilterChanged } = actions;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCharacters } from "./charSlice";
 import CharItem from "../charItem/charItem";
@@ -9,6 +9,11 @@ const CharList = () => {
   const { characters, charactersLoadingStatus } = useSelector(
     (state) => state.characters
   );
+  const [activeFilter, setActiveFilter] = useState("all");
+
+  const onActiveFilterChanged = (event) => {
+    setActiveFilter(event.target.value);
+  };
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,21 +28,39 @@ const CharList = () => {
       return <h2>Ошибка при загрузке</h2>;
     }
 
-    return arr.map((char, i) => {
+    return arr.map((char) => {
       return (
-        <CharItem key={uuidv4()} thumbnail={char.thumbnail} name={char.name} />
+        <CharItem
+          key={uuidv4()}
+          vision={char.vision}
+          thumbnail={char.thumbnail}
+          name={char.name}
+        />
       );
     });
   };
-  const elements = renderCharacters(characters);
+  const filteredElements = () => {
+    return renderCharacters(
+      characters.filter((char) => {
+        if (activeFilter === "all") return char;
+
+        return char.vision.toLowerCase() === activeFilter.toLowerCase();
+      })
+    );
+  };
+  const elements = filteredElements();
+
   return (
     <>
       <h1>Список персонажей</h1>
-      <select className="element">
+      <select
+        onChange={(event) => onActiveFilterChanged(event)}
+        className="element"
+      >
         <option value="all">all</option>
         <option value="anemo">anemo</option>
-        <option value="fire">fire</option>
-        <option value="water">water</option>
+        <option value="pyro">pyro</option>
+        <option value="hydro">hydro</option>
         <option value="electro">electro</option>
         <option value="cryo">cryo</option>
         <option value="geo">geo</option>
