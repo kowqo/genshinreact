@@ -1,41 +1,40 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchArtifacts } from "./artifactsSlice";
 import { v4 as uuidv4 } from "uuid";
 import Spinner from "../spinner/spinner";
 import "./artifactsList.scss";
 import ArtifactsItem from "../artifactsItem/artifactsItem";
-const ArtifactsList = () => {
-  const { artifacts, artifactsLoadingStatus } = useSelector(
-    (state) => state.artifacts
-  );
-  const dispatch = useDispatch();
+import { observer } from "mobx-react-lite";
+import genshinStore from "../../store/mobx";
 
+const ArtifactsList = observer(() => {
   useEffect(() => {
-    dispatch(fetchArtifacts());
-  }, [dispatch]);
+    genshinStore.fetchArts();
+  }, []);
 
   const renderCharacters = (arr) => {
-    if (arr.length === 0) {
-      return <Spinner />;
-    }
+		if (arr){
 
-    if (artifactsLoadingStatus === "error") {
-      return <h2>Ошибка при загрузке</h2>;
-    }
-
-    return arr.map((char) => {
-      return (
-        <ArtifactsItem
+			if (arr && arr.length === 0) {
+				return <Spinner />;
+			}
+			
+			if (genshinStore.artifactsLoadingStatus === "error") {
+				return <h2>Ошибка при загрузке</h2>;
+			}
+			
+			return arr.map((char) => {
+				return (
+					<ArtifactsItem
           key={uuidv4()}
           thumbnail={char.thumbnail}
           name={char.name}
-        />
-      );
-    });
+					/>
+					);
+				});
+			}
   };
 
-  const elements = renderCharacters(artifacts);
+  const elements = renderCharacters(genshinStore.artifacts);
 
   return (
     <>
@@ -43,6 +42,6 @@ const ArtifactsList = () => {
       <section className="artifacts-list">{elements}</section>
     </>
   );
-};
+});
 
 export default ArtifactsList;

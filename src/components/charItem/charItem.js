@@ -1,19 +1,14 @@
-import React from 'react'
+import React, { memo } from "react";
 
 const CharItem = (props) => {
-	return (
+  return (
     <figure className="character-item">
       <a href={props.name}>
-        <img
-          src={props.thumbnail}
-          width="50"
-          height="50"
-          alt={props.name}
-        />
+        <img src={props.thumbnail} width="50" height="50" alt={props.name} />
         <figcaption className="character-item-text">{props.name}</figcaption>
       </a>
     </figure>
   );
-}
+};
 
-export default CharItem
+export default memo(CharItem);

@@ -1,55 +1,56 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCharacters } from "./charSlice";
 import CharItem from "../charItem/charItem";
 import Spinner from "../spinner/spinner";
 import "./charList.scss";
 import { v4 as uuidv4 } from "uuid";
-const CharList = () => {
-  const { characters, charactersLoadingStatus } = useSelector(
-    (state) => state.characters
-  );
+import genshinStore from "../../store/mobx";
+import { observer } from "mobx-react-lite";
+
+const CharList = observer(() => {
   const [activeFilter, setActiveFilter] = useState("all");
 
   const onActiveFilterChanged = (event) => {
     setActiveFilter(event.target.value);
   };
 
-  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchCharacters());
-  }, [dispatch]);
+    genshinStore.fetchChars();
+  }, []);
 
   const renderCharacters = (arr) => {
-    if (arr.length === 0) {
-      return <Spinner />;
+    if (arr) {
+      if (arr.length === 0) {
+        return <Spinner />;
+      }
+      if (genshinStore.charactersLoadingStatus === "error") {
+        return <h2>Ошибка при загрузке</h2>;
+      }
+
+      return arr.map((char) => {
+        return (
+          <CharItem
+            key={uuidv4()}
+            vision={char.vision}
+            thumbnail={char.thumbnail}
+            name={char.name}
+          />
+        );
+      });
     }
-    if (charactersLoadingStatus === "error") {
-      return <h2>Ошибка при загрузке</h2>;
-    }
-
-    return arr.map((char) => {
-      return (
-        <CharItem
-          key={uuidv4()}
-          vision={char.vision}
-          thumbnail={char.thumbnail}
-          name={char.name}
-        />
-      );
-    });
   };
-  const filteredElements = () => {
-    return renderCharacters(
-      characters.filter((char) => {
-        if (activeFilter === "all") return char;
+  const filteredElements = (arr) => {
+		if(arr){
 
-        return char.vision.toLowerCase() === activeFilter.toLowerCase();
-      })
-    );
+			return renderCharacters(
+				arr.filter((char) => {
+					if (activeFilter === "all") return char;
+					return char.vision.toLowerCase() === activeFilter.toLowerCase();
+				})
+				);
+			}
   };
-  const elements = filteredElements();
-
+  const elements = filteredElements(genshinStore.characters);
+	
   return (
     <>
       <h1>Список персонажей</h1>
@@ -68,6 +69,6 @@ const CharList = () => {
       <section className="character-list">{elements}</section>
     </>
   );
-};
+});
 
 export default CharList;
